@@ -2,3 +2,15 @@ language: java
 jdk:
 - oraclejdk8
 - openjdk8
+deploy:
+  provider: releases
+  api_key:
+    secure: U6FjE7Rjj8bf2aY7vKgcWKB0qIn6Jt27yP8LK1mvfycdB1MAbpc7AscoZKt6K/AW9HYXkKPXi15dvid3Zuv8opjjyQJmvaZrprak886uLUCi8H730QgrVTy/0rDNpIhH08Ba7uFGp44TGuZSLXCktFJfuPmsWE2tBD+rpcct7Db3xcB8dqSItHhvzFHmGAGJkmc8keBbGw8H7sQtRtRBSgVSpy2hPLpJmaxpHRomXlnS2wUjuLvW5gsSVQULERcBGwFD/JBTNcD8oN6bPCOc/ybbwh0lNvlo9Rcha+5FgB8HfJhjOd2qKfwiNx9MjLupJ7wx54WAur8KgfpZYhA1ZlLi6Y4fnKrU1Nu1MfW2QPp7i/ucVwbfHA8j6QVXwD2wfPz5bhnr2BMrCcjGfFmzWyYw7f3zMBAvqHMXxKXnns7hc0sMIFmc5dgnWZRcsHwNcI1DzawDZN9nI/1SHQENpnPDQv/1L6mZR5v0Vr7NzQdZY87uFmNv3GYJpQU88FKfDhlEQNpzrtt6yiBt0NXwo67uq71Q31lZ+ywiMPRqdgV6FYc3qq0Qkj2DH/gYAWplfhPxDw+8BM2+T9rnO4/QpB5ZYQzamj5RCP2rGWw0GcYmmS6Fwc7NBoYQSxF5Y9jPTetkzOBrkItUNn9NzpWg6omGOaY42SpN2QTxjYIRAR8=
+  file_glob: true
+  file:
+    - target/ALICA_ACPack-*.jar
+    - pom.xml
+  skip_cleanup: true
+  on:
+    repo: LEB-EPFL/ALICA_ACPack
+    tags: true
