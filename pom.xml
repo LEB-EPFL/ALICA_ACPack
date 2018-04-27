@@ -10,6 +10,13 @@
         <maven.compiler.source>1.6</maven.compiler.source>
         <maven.compiler.target>1.6</maven.compiler.target>
     </properties>
+
+    <repositories>
+	<repository>
+	    <id>jitpack.io</id>
+	    <url>https://jitpack.io</url>
+	</repository>
+    </repositories>
     
     <dependencies>
         <dependency>
@@ -18,19 +25,11 @@
             <version>1.49h</version>
         </dependency>
     
-    
-        <!-- LOCAL REPOSITORY DEPENDENCIES  -->
-        <!-- https://stackoverflow.com/questions/22956015/
-        maven-in-netbeans8-how-to-add-jars-to-local-repository 
-        To add a new jar file to local project repository, first add its
-        <dependency> entry below, save pom.xml, then in Netbeans Projects
-        left sidebar menu go to Dependencies, right-click the new entry,
-        and choose "Manually install artifact". -->
-        <dependency>
-            <groupId>ch.epfl.leb</groupId>
-            <artifactId>ALICA_interfaces</artifactId>
-            <version>0.0.0</version>
-        </dependency>
+	<dependency>
+	    <groupId>com.github.LEB-EPFL</groupId>
+	    <artifactId>ALICA_interfaces</artifactId>
+	    <version>0.0.0</version>
+	</dependency>
         
         <!-- https://mvnrepository.com/artifact/junit/junit -->
         <dependency>
@@ -39,7 +38,6 @@
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
     
 </project>
