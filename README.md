@@ -7,6 +7,10 @@ This package contains analyzer and controller implementations for
 control package for light microscopy. It is a run-time dependency
 of ALICA.
 
+## Documentation
+
+http://alica-ac-pack.readthedocs.io/en/latest/
+
 ## Relationship with ALICA and SASS
 
 ![](src/main/resources/diagram.png)

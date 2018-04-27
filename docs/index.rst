@@ -17,7 +17,6 @@ light microscopy. It is a run-time dependency of ALICA. These
 implementations are maintained separately of ALICA because they are
 used in SASS as well.
 
-
 Relationship with ALICA and SASS
 --------------------------------
 
