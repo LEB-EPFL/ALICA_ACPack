@@ -21,7 +21,6 @@ package ch.epfl.leb.alica.acpack.analyzers.spotcounter;
 
 import ch.epfl.leb.alica.interfaces.Analyzer;
 import ch.epfl.leb.alica.interfaces.analyzers.AnalyzerStatusPanel;
-import ij.ImagePlus;
 import ij.gui.Roi;
 import ij.process.ShortProcessor;
 import java.util.ArrayList;
