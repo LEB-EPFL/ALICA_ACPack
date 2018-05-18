@@ -78,11 +78,6 @@ public class DEFCoNSetupPanel extends AnalyzerSetupPanel {
 
         textModelPath.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         textModelPath.setText("/path/to/model");
-        textModelPath.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textModelPathActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -107,10 +102,6 @@ public class DEFCoNSetupPanel extends AnalyzerSetupPanel {
                 .addContainerGap(100, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void textModelPathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textModelPathActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textModelPathActionPerformed
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

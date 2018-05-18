@@ -57,9 +57,6 @@
         <Property name="horizontalAlignment" type="int" value="2"/>
         <Property name="text" type="java.lang.String" value="/path/to/model"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="textModelPathActionPerformed"/>
-      </Events>
     </Component>
   </SubComponents>
 </Form>
