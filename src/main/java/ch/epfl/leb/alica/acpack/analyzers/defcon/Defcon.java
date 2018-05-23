@@ -100,7 +100,7 @@ public class Defcon implements Analyzer {
      */
     public Defcon(String pathToModel) {
         // Initialize the count cache.
-        intermittentOutputs = new ArrayList<Double>();
+        intermittentOutputs = new ArrayList<>();
         
         // Initializes the density map predictor.
         predictor = new DefaultPredictor();
@@ -248,22 +248,25 @@ public class Defcon implements Analyzer {
      * @param timeMs Image acquisition time in milliseconds.
      */
     @Override
-    public void processImage(Object image, int width, int height, double pixelSizeUm,
-                           long timeMs) {
+    public void processImage(Object image, int width, int height,
+                           double pixelSizeUm, long timeMs) {
+        
+        ShortProcessor sp = new ShortProcessor(width, height);
+        sp.setPixels(image);
+        
         double fovArea;
         if (roi == null) {
             fovArea = pixelSizeUm * pixelSizeUm * width * height;
         } else {
             fovArea = pixelSizeUm * pixelSizeUm *
                       roi.getBounds().getWidth() * roi.getBounds().getHeight();
+            
         }
-        
-        ShortProcessor sp = new ShortProcessor(width, height);
-        sp.setPixels(image);
+        sp.setRoi(roi);
         
         // Compute the density map.
         try {
-            predictor.predict(sp);
+            predictor.predict(sp.crop());
             updateLiveView();
         } catch (ImageBitDepthException ex) {
             String msg = "The image must be either 16-bits or 8-bits.";

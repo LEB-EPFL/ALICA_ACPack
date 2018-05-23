@@ -74,7 +74,7 @@ public class DEFCoNSetupPanel extends AnalyzerSetupPanel {
 
         setPreferredSize(new java.awt.Dimension(150, 150));
 
-        labelNetworkModel.setText("Network model");
+        labelNetworkModel.setText("Saved network model");
 
         textModelPath.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         textModelPath.setText("/path/to/model");
