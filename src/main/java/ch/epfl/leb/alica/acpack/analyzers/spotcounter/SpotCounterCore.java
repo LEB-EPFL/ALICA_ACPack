@@ -28,7 +28,6 @@ import ij.process.ImageProcessor;
 import java.awt.Color;
 import java.awt.Polygon;
 import java.awt.Rectangle;
-import static java.lang.Math.ceil;
 import static java.lang.Math.floor;
 import static java.lang.Math.sqrt;
 import java.util.Arrays;

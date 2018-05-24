@@ -3,40 +3,184 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>ch.epfl.leb</groupId>
     <artifactId>ALICA_ACPack</artifactId>
-    <version>0.0.0</version>
+    <version>0.1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
+
+    <parent>
+	<groupId>org.scijava</groupId>
+	<artifactId>pom-scijava</artifactId>
+	<version>19.2.0</version>
+	<relativePath />
+    </parent>
+    
+    <name>ALICA_ACPack</name>
+    <description>Analyzer and controller pack for ALICA.</description>
+    <url>https://github.com/LEB-EPFL/ALICA_ACPack</url>
+    <inceptionYear>2018</inceptionYear>
+                            
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.6</maven.compiler.source>
-        <maven.compiler.target>1.6</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+
+
+        <!-- SciJava -->
+        <license.licenseName>gpl_v3</license.licenseName>
+        <license.copyrightOwners>The Laboratory of Experimental Biophysics, EPFL</license.copyrightOwners>
+        
+	<!-- Dependencies -->
+	<ij.version>1.51g</ij.version>
+	<alica_interfaces.version>0.0.1</alica_interfaces.version>
+	<defcon-imagej.version>0.0.2</defcon-imagej.version>
+        <tensorflow.version>1.6.0</tensorflow.version>
+        <junit.version>4.12</junit.version>
+
+	<!-- Plugins -->
+        <maven-shade-plugin.version>3.1.0</maven-shade-plugin.version>
     </properties>
 
     <repositories>
-	<repository>
+        <repository>
+	    <id>imagej.public</id>
+	    <url>https://maven.imagej.net/content/groups/public</url>
+	</repository>
+        
+        <repository>
 	    <id>jitpack.io</id>
 	    <url>https://jitpack.io</url>
 	</repository>
     </repositories>
     
+     <organization>
+        <name>The Laboratory of Experimental Biophysics</name>
+        <url>https://leb.epfl.ch</url>
+    </organization>
+
+        <licenses>
+        <license>
+            <name>GNU General Public License v3+</name>
+            <url>https://www.gnu.org/licenses/gpl.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    
+    <developers>
+	<developer>
+            <id>kmdouglass</id>
+            <name>Kyle M. Douglass</name>
+		<url>https://kmdouglass.github.io</url>
+                <roles>
+                        <role>lead</role>
+                        <role>developer</role>
+                        <role>debugger</role>
+                        <role>reviewer</role>
+                        <role>support</role>
+                        <role>maintainer</role>
+                </roles>
+        </developer>
+    </developers>
+    
+    <contributors>
+        <contributor>
+            <name>Marcel Stefko</name>
+            <url>https://github.com/MStefko</url>
+            <roles>
+	        <role>founder</role>
+                <role>developer</role>
+            </roles>
+        </contributor>
+        <contributor>
+            <name>Baptiste Ottino</name>
+            <url>https://github.com/bottino</url>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </contributor>
+    </contributors>
+    
+    <mailingLists>
+	<mailingList>
+            <name>Gitter</name>
+            <archive>https://gitter.im/leb_epfl/ALICA</archive>
+	</mailingList>
+    </mailingLists>
+
+    <scm>
+	<connection>scm:git:git://github.com/LEB-EPFL/ALICA_ACPack</connection>
+	<developerConnection>scm:git:git@github.com:LEB-EPFL/ALICA_ACPack</developerConnection>
+	<tag>HEAD</tag>
+	<url>https://github.com/LEB-EPFL/ALICA_ACPack</url>
+    </scm>
+        
+    <issueManagement>
+		<system>GitHub Issues</system>
+		<url>https://github.com/LEB-EPFL/ALICA_ACPack/issues</url>
+    </issueManagement>
+    
+    <ciManagement>
+	<system>https://travis-ci.org/LEB-EPFL/ALICA_ACPack</system>
+    </ciManagement>
+   
+    
     <dependencies>
         <dependency>
             <groupId>net.imagej</groupId>
             <artifactId>ij</artifactId>
-            <version>1.49h</version>
+            <version>${ij.version}</version>
         </dependency>
     
 	<dependency>
 	    <groupId>com.github.LEB-EPFL</groupId>
 	    <artifactId>ALICA_interfaces</artifactId>
-	    <version>0.0.1</version>
+	    <version>${alica_interfaces.version}</version>
 	</dependency>
+
+	<dependency>
+	    <groupId>com.github.LEB-EPFL</groupId>
+	    <artifactId>DEFCoN-ImageJ</artifactId>
+	    <version>${defcon-imagej.version}</version>	    
+	</dependency>
+        
+        <!-- THIS MUST BE HERE TO PREVENT SCIJAVA FROM OVERRIDING THE VERSION
+        OF TENSORFLOW THAT DEFCON ALREADY OVERRODE. -->
+        <dependency>
+            <groupId>org.tensorflow</groupId>
+            <artifactId>tensorflow</artifactId>
+            <version>${tensorflow.version}</version>
+        </dependency>
         
         <!-- https://mvnrepository.com/artifact/junit/junit -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>${maven-shade-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                            <goals>
+                                <goal>shade</goal>
+                            </goals>
+                            <configuration>
+			        <minimizeJar>true</minimizeJar>  
+ 		                <artifactSet>
+		                    <excludes>
+                                        <exclude>net.imagej:ij</exclude>
+  			                <exclude>com.github.LEB-EPFL:ALICA_interfaces</exclude>
+   		                    </excludes>
+      		                </artifactSet>
+                            </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
