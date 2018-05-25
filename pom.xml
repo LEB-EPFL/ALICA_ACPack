@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>ch.epfl.leb</groupId>
     <artifactId>ALICA_ACPack</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <parent>
@@ -29,7 +29,7 @@
         <license.copyrightOwners>The Laboratory of Experimental Biophysics, EPFL</license.copyrightOwners>
         
 	<!-- Dependencies -->
-	<ij.version>1.51g</ij.version>
+	<ij.version>1.51s</ij.version>
 	<alica_interfaces.version>0.0.1</alica_interfaces.version>
 	<defcon-imagej.version>0.0.2</defcon-imagej.version>
         <tensorflow.version>1.6.0</tensorflow.version>
