@@ -48,7 +48,7 @@ public class Defcon implements Analyzer {
     /**
      * The most recent spot count.
      */
-    private Double intermittentOutput = 0.0;
+    private double intermittentOutput = 0.0;
     
     /**
      * The count cache. This is emptied when getBatchOutput() is called.
