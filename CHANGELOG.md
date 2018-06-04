@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - Bumped ImageJ to 1.51s to match Micro-Manager 2.0 gamma.
+- Changed the default values for the Self-Tuning PI controller
+  parameters.
 
 ## [v0.1.0]
 

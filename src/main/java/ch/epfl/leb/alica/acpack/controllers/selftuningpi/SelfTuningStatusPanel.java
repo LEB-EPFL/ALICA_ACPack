@@ -78,12 +78,12 @@ public class SelfTuningStatusPanel extends ControllerStatusPanel {
         jLabel4.setText("I factor:");
 
         e_i_factor.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
-        e_i_factor.setText("0.3");
+        e_i_factor.setText("0.03");
 
         jLabel3.setText("P factor:");
 
         e_p_factor.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
-        e_p_factor.setText("0.1");
+        e_p_factor.setText("0.3");
 
         b_recalibrate.setText("Calibrate");
         b_recalibrate.addActionListener(new java.awt.event.ActionListener() {
@@ -163,7 +163,7 @@ public class SelfTuningStatusPanel extends ControllerStatusPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 4, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -181,7 +181,7 @@ public class SelfTuningStatusPanel extends ControllerStatusPanel {
                                     .addComponent(l_i_value, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(2, 2, 2)
                                 .addComponent(cb_block)))
-                        .addContainerGap(16, Short.MAX_VALUE))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -190,7 +190,6 @@ public class SelfTuningStatusPanel extends ControllerStatusPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(l_status))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
