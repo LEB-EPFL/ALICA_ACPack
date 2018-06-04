@@ -1,7 +1,7 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [v0.1.1]
 
 ### Changed
 
@@ -26,6 +26,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Initial project files.
 
-[Unreleased] https://github.com/kmdouglass/ALICA_ACPack/compare/0.1.0...HEAD
+[Unreleased] https://github.com/kmdouglass/ALICA_ACPack/compare/0.1.1...HEAD
+[v0.1.1]: https://github.com/LEB-EPFL/ALICA_ACPack/releases/tag/0.1.1
 [v0.1.0]: https://github.com/LEB-EPFL/ALICA_ACPack/releases/tag/0.1.0
 [v0.0.0]: https://github.com/LEB-EPFL/ALICA_ACPack/releases/tag/0.0.0
