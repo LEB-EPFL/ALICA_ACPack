@@ -23,6 +23,7 @@ import ch.epfl.leb.alica.interfaces.analyzers.AnalyzerStatusPanel;
 import ch.epfl.leb.defcon.predictors.Predictor;
 import ch.epfl.leb.defcon.predictors.SessionClosedException;
 import ch.epfl.leb.defcon.predictors.ImageBitDepthException;
+import ch.epfl.leb.defcon.predictors.NoLocalCountMapException;
 import ch.epfl.leb.defcon.predictors.UninitializedPredictorException;
 import ch.epfl.leb.defcon.predictors.internal.DefaultPredictor;
 
@@ -328,9 +329,15 @@ public class Defcon implements Analyzer {
         // Compute the spot density.
         synchronized(this) {
             try {
-                intermittentOutput = predictor.getCount() 
-                                     / fovArea * SCALE_FACTOR;
-                intermittentOutputs.add(intermittentOutput);
+                if (maxLocalCount) {
+                    intermittentOutput
+                            = predictor.getMaximumLocalCount(boxSize);
+                    intermittentOutputs.add(intermittentOutput);
+                } else {
+                    intermittentOutput = predictor.getCount() 
+                                         / fovArea * SCALE_FACTOR;
+                    intermittentOutputs.add(intermittentOutput);
+                }
             } catch (UninitializedPredictorException ex) {
                 String msg = "This predictor has not been initialized.";
                 LOGGER.log(Level.SEVERE, msg);
@@ -346,12 +353,19 @@ public class Defcon implements Analyzer {
         synchronized(liveView) {
             if (liveMode) {
                 try {
-                    liveView.setProcessor(predictor.getDensityMap());
+                    if (maxLocalCount) {
+                        liveView.setProcessor(predictor.getLocalCountMap());
+                    } else {
+                        liveView.setProcessor(predictor.getDensityMap());
+                    }
                 } catch (UninitializedPredictorException ex) {
                     String msg = "Cannot update live view; " +
                                  "the predictor has not been initialized.";
                     LOGGER.log(Level.SEVERE, msg);
-                    LOGGER.log(Level.SEVERE, ex.getMessage());
+                } catch (NoLocalCountMapException ex) {
+                    String msg = "Cannot update live view; " +
+                                 "the max local count has not been computed.";
+                    LOGGER.log(Level.SEVERE, msg);
                 }
                 liveView.updateAndDraw();
                 

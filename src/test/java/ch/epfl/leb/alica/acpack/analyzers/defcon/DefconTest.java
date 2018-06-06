@@ -55,7 +55,7 @@ public class DefconTest {
      * Gets/sets the box size field for the maximum local count.
      */
     @Test
-    public void testBoxSize() {
+    public void testGetSetBoxSize() {
         // Default value
         int expResult = 7;
         int result = instance.getBoxSize();
@@ -65,18 +65,6 @@ public class DefconTest {
         instance.setBoxSize(expResult);
         result = instance.getBoxSize();
         assertEquals(expResult, result);
-    }
-    
-    /**
-     * Ensures that the processImage() method is called without errors.
-     */
-    @Test
-    public void testProcessImage() {
-        double pixelSizeUm = 0.1;
-        long timeMs = 10;
-        instance.processImage(imp.getProcessor().getPixels(), imp.getWidth(),
-                              imp.getHeight(), pixelSizeUm, timeMs);
-        
     }
     
     /**
@@ -111,6 +99,18 @@ public class DefconTest {
     public void testOddBoxSize() {
         int boxSize = 4;
         instance.setBoxSize(boxSize);
+    }
+    
+    /**
+     * Ensures that the processImage() method is called without errors.
+     */
+    @Test
+    public void testProcessImage() {
+        double pixelSizeUm = 0.1;
+        long timeMs = 10;
+        instance.processImage(imp.getProcessor().getPixels(), imp.getWidth(),
+                              imp.getHeight(), pixelSizeUm, timeMs);
+        
     }
     
     /**
