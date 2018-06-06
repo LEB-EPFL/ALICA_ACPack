@@ -50,7 +50,23 @@ public class DefconTest {
         
         instance = new Defcon(modelPath);
     }
-
+    
+    /**
+     * Gets/sets the box size field for the maximum local count.
+     */
+    @Test
+    public void testBoxSize() {
+        // Default value
+        int expResult = 7;
+        int result = instance.getBoxSize();
+        assertEquals(expResult, result);
+        
+        expResult = 5;
+        instance.setBoxSize(expResult);
+        result = instance.getBoxSize();
+        assertEquals(expResult, result);
+    }
+    
     /**
      * Ensures that the processImage() method is called without errors.
      */
@@ -62,5 +78,60 @@ public class DefconTest {
                               imp.getHeight(), pixelSizeUm, timeMs);
         
     }
+    
+    /**
+     * Toggles the maximum local count feature.
+     */
+    @Test
+    public void testMaxLocalCount() {
+        // maxLocalCount is off by default
+        assertEquals(false, instance.isMaxLocalCount());
         
+        instance.maxLocalCountOn();
+        assertEquals(true, instance.isMaxLocalCount());
+        
+        instance.maxLocalCountOff();
+        assertEquals(false, instance.isMaxLocalCount());
+        
+    }
+    
+    /**
+     * Ensures that the boxSize value is greater than 1.
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testNegativeBoxSize() {
+        int boxSize = -5;
+        instance.setBoxSize(boxSize);
+    }
+    
+    /**
+     * Ensures that the boxSize value is odd.
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testOddBoxSize() {
+        int boxSize = 4;
+        instance.setBoxSize(boxSize);
+    }
+    
+    /**
+     * Analyzer predicts the maximum local count instead of the density map.
+     */
+    @Test
+    public void testProcessMaxLocalCount() {
+        
+        // Predict the full count
+        double pixelSizeUm = 0.1;
+        long timeMs = 10;
+        instance.processImage(imp.getProcessor().getPixels(), imp.getWidth(),
+                              imp.getHeight(), pixelSizeUm, timeMs);
+        double fullCount = instance.getBatchOutput();
+        
+        // Predict the maximum local count
+        instance.maxLocalCountOn();
+        instance.processImage(imp.getProcessor().getPixels(), imp.getWidth(),
+                              imp.getHeight(), pixelSizeUm, timeMs);
+        double mlc = instance.getBatchOutput();
+        
+        assertNotEquals(fullCount, mlc, 0.0);
+    }
 }

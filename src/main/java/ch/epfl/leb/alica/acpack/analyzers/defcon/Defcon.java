@@ -46,6 +46,11 @@ public class Defcon implements Analyzer {
     private final static Logger LOGGER = Logger.getLogger(Defcon.class.getName());
     
     /**
+     * The square kernel size for computing the maximum local count.
+     */
+    private int boxSize;
+    
+    /**
      * The most recent spot count.
      */
     private double intermittentOutput = 0.0;
@@ -64,6 +69,11 @@ public class Defcon implements Analyzer {
      * A reference to the live view window.
      */
     private final ImagePlus liveView;
+    
+    /**
+     * A flag indicating whether the total count or max local count is returned.
+     */
+    private boolean maxLocalCount;
     
     /**
      * The descriptive name for this analyzer.
@@ -112,6 +122,9 @@ public class Defcon implements Analyzer {
         // Setups the live view.
         liveMode = false;
         liveView = new ImagePlus("DEFCoN - Density Map");
+        
+        boxSize = 7;
+        maxLocalCount = false;
     }
     
     /**
@@ -159,6 +172,15 @@ public class Defcon implements Analyzer {
         intermittentOutputs.clear();
         
         return meanOutput;
+    }
+    
+    /**
+     * Returns the current square kernel size for maximum local counts.
+     * 
+     * @return The kernel size for computing the maximum local count.
+     */
+    public int getBoxSize() {
+        return boxSize;
     }
     
     /**
@@ -215,6 +237,15 @@ public class Defcon implements Analyzer {
     }
     
     /**
+     * True if the analyzer is computing the maximum local count.
+     * 
+     * @return True if the analyzer is computing the maximum local count.
+     */
+    public boolean isMaxLocalCount() {
+        return maxLocalCount;
+    }
+    
+    /**
      * Turns on the live view of the density map.
      */
     public void liveModeOn() {
@@ -231,6 +262,22 @@ public class Defcon implements Analyzer {
             liveMode = false;
             liveView.hide();
         }
+    }
+    
+    /**
+     * Turns on the live view of the density map.
+     */
+    public void maxLocalCountOn() {
+            // Flush the output cache.
+            intermittentOutputs.clear();
+            maxLocalCount = true;
+    }
+    
+    /**
+     * Turns off the live view of the density map.
+     */
+    public void maxLocalCountOff() {
+            maxLocalCount = false;
     }
     
     /**
@@ -313,6 +360,24 @@ public class Defcon implements Analyzer {
                 }
             }
         }
+    }
+    
+    /**
+     * Sets the square kernel size for computing the maximum local count.
+     * 
+     * @param boxSize The kernel size for computing the maximum local count.
+     */
+    public void setBoxSize(int boxSize) {
+        if (boxSize % 2 == 0) {
+            String msg = "boxSize must be odd. Received: " +
+                         String.valueOf(boxSize);
+            throw new IllegalArgumentException(msg);
+        } else if (boxSize < 1) {
+            String msg = "boxSize must be greater than 1. Recevied: " +
+                         String.valueOf(boxSize);
+            throw new IllegalArgumentException(msg);
+        }
+        this.boxSize = boxSize;
     }
     
     @Override
