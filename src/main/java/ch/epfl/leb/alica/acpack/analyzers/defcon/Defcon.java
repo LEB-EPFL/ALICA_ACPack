@@ -211,7 +211,13 @@ public class Defcon implements Analyzer {
      */
     @Override
     public String getShortReturnDescription() {
-        String descr = "counts/" + String.valueOf((int) SCALE_FACTOR) + " um^2";
+        String descr = "";
+        if (maxLocalCount) {
+            descr = "maximum local count";
+        } else {
+            descr = "counts/" + String.valueOf((int) SCALE_FACTOR) + " um^2";
+        }
+            
         return descr;
     }
     
