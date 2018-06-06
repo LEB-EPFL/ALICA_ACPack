@@ -6,6 +6,10 @@ All notable changes to this project will be documented in this file.
 - The DEFCoN analyzer can now perform maximum local count
   computations.
 
+### Fixed
+- A bug was fixed that caused the live view from some analyzers to be
+  off from the live view from Micro-Manager by one frame.
+
 ## [v0.1.1]
 ### Changed
 - Bumped ImageJ to 1.51s to match Micro-Manager 2.0 gamma.

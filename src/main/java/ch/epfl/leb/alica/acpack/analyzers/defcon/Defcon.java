@@ -315,7 +315,6 @@ public class Defcon implements Analyzer {
         // Compute the density map.
         try {
             predictor.predict(sp.crop());
-            updateLiveView();
         } catch (ImageBitDepthException ex) {
             String msg = "The image must be either 16-bits or 8-bits.";
             LOGGER.log(Level.SEVERE, msg);
@@ -344,6 +343,10 @@ public class Defcon implements Analyzer {
                 LOGGER.log(Level.SEVERE, ex.getMessage());
             }
          }
+        
+        // This should occur as the last call of this method so that the live
+        // view is synced with the state of the analyzer.
+        updateLiveView();
     }
     
     /**
