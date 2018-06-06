@@ -48,8 +48,14 @@ public class DefconStatusPanel extends AnalyzerStatusPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        bgCountType = new javax.swing.ButtonGroup();
         labelDefcon = new javax.swing.JLabel();
         cbLiveView = new javax.swing.JCheckBox();
+        jSeparator1 = new javax.swing.JSeparator();
+        rbTotalCount = new javax.swing.JRadioButton();
+        rbLocalCount = new javax.swing.JRadioButton();
+        lBoxSize = new javax.swing.JLabel();
+        tfBoxSize = new javax.swing.JTextField();
 
         labelDefcon.setText("DEFCoN");
 
@@ -60,19 +66,62 @@ public class DefconStatusPanel extends AnalyzerStatusPanel {
             }
         });
 
+        bgCountType.add(rbTotalCount);
+        rbTotalCount.setSelected(true);
+        rbTotalCount.setText("Total count");
+        rbTotalCount.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                rbTotalCountItemStateChanged(evt);
+            }
+        });
+
+        bgCountType.add(rbLocalCount);
+        rbLocalCount.setText("Maximum local count");
+        rbLocalCount.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                rbLocalCountItemStateChanged(evt);
+            }
+        });
+
+        lBoxSize.setText("Box size");
+        lBoxSize.setEnabled(false);
+
+        tfBoxSize.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        tfBoxSize.setText("7");
+        tfBoxSize.setEnabled(false);
+        tfBoxSize.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tfBoxSizeFocusLost(evt);
+            }
+        });
+        tfBoxSize.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfBoxSizeActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator1)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(labelDefcon))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(cbLiveView)))
-                .addContainerGap(124, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(21, 21, 21)
+                                .addComponent(lBoxSize)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(tfBoxSize))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(rbLocalCount)
+                                .addComponent(rbTotalCount)
+                                .addComponent(labelDefcon)
+                                .addComponent(cbLiveView)))
+                        .addGap(0, 49, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -81,7 +130,17 @@ public class DefconStatusPanel extends AnalyzerStatusPanel {
                 .addComponent(labelDefcon)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cbLiveView)
-                .addContainerGap(93, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(rbTotalCount)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(rbLocalCount)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lBoxSize)
+                    .addComponent(tfBoxSize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -93,9 +152,40 @@ public class DefconStatusPanel extends AnalyzerStatusPanel {
         }
     }//GEN-LAST:event_cbLiveViewItemStateChanged
 
+    private void rbTotalCountItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rbTotalCountItemStateChanged
+        if ( rbTotalCount.isSelected() ) {
+            defcon.maxLocalCountOff();
+            lBoxSize.setEnabled(false);
+            tfBoxSize.setEnabled(false);
+        }
+    }//GEN-LAST:event_rbTotalCountItemStateChanged
+
+    private void rbLocalCountItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rbLocalCountItemStateChanged
+        if ( rbLocalCount.isSelected() ) {
+            lBoxSize.setEnabled(true);
+            tfBoxSize.setEnabled(true);
+            defcon.maxLocalCountOn();
+            defcon.setBoxSize(Integer.valueOf(tfBoxSize.getText()));
+        }
+    }//GEN-LAST:event_rbLocalCountItemStateChanged
+
+    private void tfBoxSizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfBoxSizeActionPerformed
+        defcon.setBoxSize(Integer.valueOf(tfBoxSize.getText()));
+    }//GEN-LAST:event_tfBoxSizeActionPerformed
+
+    private void tfBoxSizeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfBoxSizeFocusLost
+        defcon.setBoxSize(Integer.valueOf(tfBoxSize.getText()));
+    }//GEN-LAST:event_tfBoxSizeFocusLost
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup bgCountType;
     private javax.swing.JCheckBox cbLiveView;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lBoxSize;
     private javax.swing.JLabel labelDefcon;
+    private javax.swing.JRadioButton rbLocalCount;
+    private javax.swing.JRadioButton rbTotalCount;
+    private javax.swing.JTextField tfBoxSize;
     // End of variables declaration//GEN-END:variables
 }

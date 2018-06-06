@@ -23,6 +23,7 @@ import ch.epfl.leb.alica.interfaces.analyzers.AnalyzerStatusPanel;
 import ch.epfl.leb.defcon.predictors.Predictor;
 import ch.epfl.leb.defcon.predictors.SessionClosedException;
 import ch.epfl.leb.defcon.predictors.ImageBitDepthException;
+import ch.epfl.leb.defcon.predictors.NoLocalCountMapException;
 import ch.epfl.leb.defcon.predictors.UninitializedPredictorException;
 import ch.epfl.leb.defcon.predictors.internal.DefaultPredictor;
 
@@ -46,6 +47,11 @@ public class Defcon implements Analyzer {
     private final static Logger LOGGER = Logger.getLogger(Defcon.class.getName());
     
     /**
+     * The square kernel size for computing the maximum local count.
+     */
+    private int boxSize;
+    
+    /**
      * The most recent spot count.
      */
     private double intermittentOutput = 0.0;
@@ -64,6 +70,11 @@ public class Defcon implements Analyzer {
      * A reference to the live view window.
      */
     private final ImagePlus liveView;
+    
+    /**
+     * A flag indicating whether the total count or max local count is returned.
+     */
+    private boolean maxLocalCount;
     
     /**
      * The descriptive name for this analyzer.
@@ -112,6 +123,9 @@ public class Defcon implements Analyzer {
         // Setups the live view.
         liveMode = false;
         liveView = new ImagePlus("DEFCoN - Density Map");
+        
+        boxSize = 7;
+        maxLocalCount = false;
     }
     
     /**
@@ -162,6 +176,15 @@ public class Defcon implements Analyzer {
     }
     
     /**
+     * Returns the current square kernel size for maximum local counts.
+     * 
+     * @return The kernel size for computing the maximum local count.
+     */
+    public int getBoxSize() {
+        return boxSize;
+    }
+    
+    /**
      * Returns the intermittent output of the analyzer.
      * 
      * @return The analyzer's current output value.
@@ -188,7 +211,13 @@ public class Defcon implements Analyzer {
      */
     @Override
     public String getShortReturnDescription() {
-        String descr = "counts/" + String.valueOf((int) SCALE_FACTOR) + " um^2";
+        String descr = "";
+        if (maxLocalCount) {
+            descr = "maximum local count";
+        } else {
+            descr = "counts/" + String.valueOf((int) SCALE_FACTOR) + " um^2";
+        }
+            
         return descr;
     }
     
@@ -215,6 +244,15 @@ public class Defcon implements Analyzer {
     }
     
     /**
+     * True if the analyzer is computing the maximum local count.
+     * 
+     * @return True if the analyzer is computing the maximum local count.
+     */
+    public boolean isMaxLocalCount() {
+        return maxLocalCount;
+    }
+    
+    /**
      * Turns on the live view of the density map.
      */
     public void liveModeOn() {
@@ -231,6 +269,22 @@ public class Defcon implements Analyzer {
             liveMode = false;
             liveView.hide();
         }
+    }
+    
+    /**
+     * Turns on the live view of the density map.
+     */
+    public void maxLocalCountOn() {
+            // Flush the output cache.
+            intermittentOutputs.clear();
+            maxLocalCount = true;
+    }
+    
+    /**
+     * Turns off the live view of the density map.
+     */
+    public void maxLocalCountOff() {
+            maxLocalCount = false;
     }
     
     /**
@@ -267,7 +321,6 @@ public class Defcon implements Analyzer {
         // Compute the density map.
         try {
             predictor.predict(sp.crop());
-            updateLiveView();
         } catch (ImageBitDepthException ex) {
             String msg = "The image must be either 16-bits or 8-bits.";
             LOGGER.log(Level.SEVERE, msg);
@@ -281,15 +334,25 @@ public class Defcon implements Analyzer {
         // Compute the spot density.
         synchronized(this) {
             try {
-                intermittentOutput = predictor.getCount() 
-                                     / fovArea * SCALE_FACTOR;
-                intermittentOutputs.add(intermittentOutput);
+                if (maxLocalCount) {
+                    intermittentOutput
+                            = predictor.getMaximumLocalCount(boxSize);
+                    intermittentOutputs.add(intermittentOutput);
+                } else {
+                    intermittentOutput = predictor.getCount() 
+                                         / fovArea * SCALE_FACTOR;
+                    intermittentOutputs.add(intermittentOutput);
+                }
             } catch (UninitializedPredictorException ex) {
                 String msg = "This predictor has not been initialized.";
                 LOGGER.log(Level.SEVERE, msg);
                 LOGGER.log(Level.SEVERE, ex.getMessage());
             }
          }
+        
+        // This should occur as the last call of this method so that the live
+        // view is synced with the state of the analyzer.
+        updateLiveView();
     }
     
     /**
@@ -299,12 +362,19 @@ public class Defcon implements Analyzer {
         synchronized(liveView) {
             if (liveMode) {
                 try {
-                    liveView.setProcessor(predictor.getDensityMap());
+                    if (maxLocalCount) {
+                        liveView.setProcessor(predictor.getLocalCountMap());
+                    } else {
+                        liveView.setProcessor(predictor.getDensityMap());
+                    }
                 } catch (UninitializedPredictorException ex) {
                     String msg = "Cannot update live view; " +
                                  "the predictor has not been initialized.";
                     LOGGER.log(Level.SEVERE, msg);
-                    LOGGER.log(Level.SEVERE, ex.getMessage());
+                } catch (NoLocalCountMapException ex) {
+                    String msg = "Cannot update live view; " +
+                                 "the max local count has not been computed.";
+                    LOGGER.log(Level.SEVERE, msg);
                 }
                 liveView.updateAndDraw();
                 
@@ -313,6 +383,24 @@ public class Defcon implements Analyzer {
                 }
             }
         }
+    }
+    
+    /**
+     * Sets the square kernel size for computing the maximum local count.
+     * 
+     * @param boxSize The kernel size for computing the maximum local count.
+     */
+    public void setBoxSize(int boxSize) {
+        if (boxSize % 2 == 0) {
+            String msg = "boxSize must be odd. Received: " +
+                         String.valueOf(boxSize);
+            throw new IllegalArgumentException(msg);
+        } else if (boxSize < 1) {
+            String msg = "boxSize must be greater than 1. Recevied: " +
+                         String.valueOf(boxSize);
+            throw new IllegalArgumentException(msg);
+        }
+        this.boxSize = boxSize;
     }
     
     @Override

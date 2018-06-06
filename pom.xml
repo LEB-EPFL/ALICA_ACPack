@@ -3,13 +3,13 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>ch.epfl.leb</groupId>
     <artifactId>ALICA_ACPack</artifactId>
-    <version>0.1.1</version>
+    <version>0.2.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <parent>
 	<groupId>org.scijava</groupId>
 	<artifactId>pom-scijava</artifactId>
-	<version>19.2.0</version>
+	<version>22.3.0</version>
 	<relativePath />
     </parent>
     
@@ -31,7 +31,7 @@
 	<!-- Dependencies -->
 	<ij.version>1.51s</ij.version>
 	<alica_interfaces.version>0.0.1</alica_interfaces.version>
-	<defcon-imagej.version>0.0.2</defcon-imagej.version>
+	<defcon-imagej.version>0.1.3</defcon-imagej.version>
         <tensorflow.version>1.6.0</tensorflow.version>
         <junit.version>4.12</junit.version>
 
@@ -136,8 +136,8 @@
 	</dependency>
 
 	<dependency>
-	    <groupId>com.github.LEB-EPFL</groupId>
-	    <artifactId>DEFCoN-ImageJ</artifactId>
+	    <groupId>ch.epfl.leb</groupId>
+	    <artifactId>DEFCoN_</artifactId>
 	    <version>${defcon-imagej.version}</version>	    
 	</dependency>
         
